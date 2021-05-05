@@ -1,0 +1,9 @@
+/my_env
+/.vscode
+/.pytest_cache
+
+/src/*.pyc
+/src/**/*.pyc
+/src/.pytest_cache
+/src/**/__pytest_cache
+/src/**/__pycache__
