@@ -1,6 +1,6 @@
 from typing import Protocol, TypeVar
 
-from src.domain import model
+from scope.domain import model
 
 T = TypeVar('T')
 
@@ -19,7 +19,8 @@ class SqlAlchemyRepository:
         self.session = session
 
     def get(self, id) -> model.Feature:
-        return self.session.query(model.Feature).filter(id=id).first()
+        return self.session.query(model.Feature).get(id)
+        #.filter(id=id).first()
 
     def add(self, feature: model.Feature):
         self.session.add(feature)

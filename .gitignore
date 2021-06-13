@@ -1,6 +1,7 @@
-/my_env
-/.vscode
-/.pytest_cache
+/.*
+# /.venv
+# /.vscode
+# /.pytest_cache
 
 /src/*.pyc
 /src/**/*.pyc

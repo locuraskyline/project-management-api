@@ -2,18 +2,8 @@ from typing import Protocol
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-import src.config
-from src.infrastructure import repository
-
-import os
-
-#TO_DO: parche temporal, la funcion esta en config.py pero esta mal la importacion
-def get_postgres_uri():
-    host = os.environ.get('DB_HOST', 'localhost')
-    port = 54321 if host == 'localhost' else 5432
-    password = os.environ.get('DB_PASSWORD', 'example')
-    user, db_name = 'postgres', 'postgres'
-    return f"postgresql://{user}:{password}@{host}:{port}/{db_name}"
+import scope.config
+from scope.infrastructure import repository
 
 class AbstractUnitOfWork(Protocol):
     
@@ -33,7 +23,7 @@ class AbstractUnitOfWork(Protocol):
         raise NotImplementedError
 
 DEFAULT_SESSION_FACTORY = sessionmaker(bind=create_engine(
-    get_postgres_uri(),
+    scope.config.get_postgres_uri(),
     isolation_level="SERIALIZABLE"
 ))
 
@@ -49,7 +39,7 @@ class SqlAlchemyUnitOfWork:
         #return super().__enter__()
         return self
     
-    def __exit__(self):
+    def __exit__(self, *args):
         self.session.close()
 
     def commit(self):

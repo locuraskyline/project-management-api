@@ -1,6 +1,6 @@
 import pytest
 
-from src.domain import model
+from scope.domain import model
 
 def test_add_new_feature():
     feature = model.Feature("New Feature", "https://my-feature.com")

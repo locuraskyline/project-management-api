@@ -3,10 +3,9 @@
 from flask import Flask, jsonify, request
 import json
 
-
-from src.infrastructure import orm
-from src.domain.model import Feature
-from src.application import services, unit_of_work
+from scope.infrastructure import orm
+from scope.domain.model import Feature
+from scope.application import services, unit_of_work
 
 app = Flask(__name__)
 orm.start_mappers()
@@ -15,17 +14,24 @@ orm.start_mappers()
 def index():
     return "index"
 
+# @app.route("/init", methods=["GET"])
+# def init():
+#     orm.init_database()
+#     return "init_database_success"
+
+
 @app.route("/tasks", methods=["GET"])
 def get_all_tasks():
     return "get_all_response"
 
 @app.route("/task/<id>", methods=["GET"])
 def get_task_by_id(id):
-    return "get_task_by_id(%s)" %(id)
+    feature = services.get_feature(id, unit_of_work.SqlAlchemyUnitOfWork())
+    return f"{feature.title} | {feature.link} | {feature.state.name}"
 
 @app.route("/task", methods=["POST"])
 def add_task():
-    #task = Feature(request.json['title'], request.json['link'])
+
     services.add_feature(
         request.json['title'],
         request.json['link'],
