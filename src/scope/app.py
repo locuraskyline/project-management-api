@@ -22,6 +22,9 @@ def index():
 
 @app.route("/tasks", methods=["GET"])
 def get_all_tasks():
+    features = services.get_all_features(unit_of_work.SqlAlchemyUnitOfWork())
+    #TO_DO serialize object response
+    #return jsonify(features)
     return "get_all_response"
 
 @app.route("/task/<id>", methods=["GET"])

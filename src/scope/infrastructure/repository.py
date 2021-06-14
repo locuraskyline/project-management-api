@@ -18,6 +18,9 @@ class SqlAlchemyRepository:
     def __init__(self, session):
         self.session = session
 
+    def get_all(self):
+        return self.session.query(model.Feature).all()
+
     def get(self, id) -> model.Feature:
         return self.session.query(model.Feature).get(id)
         #.filter(id=id).first()
