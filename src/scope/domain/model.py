@@ -1,4 +1,7 @@
 from enum import Enum
+from typing import Optional
+
+from sqlalchemy.sql.sqltypes import Integer
 
 class FeatureState(Enum):
     PENDING = 1
@@ -10,10 +13,15 @@ class FeatureState(Enum):
 class Feature:
     id: int
 
-    def __init__(self, title, link):
+    def __init__(self, title: str, link: str, parent_id: Optional[Integer] = None):
         self.state = FeatureState.PENDING
         self.title = title
         self.link = link
+        self.__parent_id = parent_id
 
     def start(self):
         self.state = FeatureState.IN_PROGRESS
+
+    @property
+    def is_epic(self):
+        return self.__parent_id == None

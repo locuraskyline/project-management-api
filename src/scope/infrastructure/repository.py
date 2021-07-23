@@ -23,7 +23,9 @@ class SqlAlchemyRepository:
 
     def get(self, id) -> model.Feature:
         return self.session.query(model.Feature).get(id)
-        #.filter(id=id).first()
+        
+    def get_childs(self, id):
+        return self.session.query(model.Feature).filter_by(parent_id=id).all()
 
     def add(self, feature: model.Feature):
         self.session.add(feature)
